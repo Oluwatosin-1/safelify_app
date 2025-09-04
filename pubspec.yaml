@@ -1,0 +1,128 @@
+name: safelify
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 9.5.3+26
+
+environment:
+  sdk: '>=3.4.3 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons:
+
+  #Firebase Notification
+  firebase_messaging:
+  flutter_local_notifications:
+  cloud_firestore:
+  firebase_storage:
+  firebase_auth:
+  firebase_core:
+  firebase_app_check:
+  firebase_analytics:
+
+  firebase_remote_config:
+  google_fonts:
+  moment_dart:
+  intl_phone_number_input:
+
+#  flick_video_player: ^0.9.0
+
+  #State Management Technique
+  mobx:
+  flutter_mobx:
+  get:
+  nb_utils:
+  # scan: ^1.6.0
+  pull_to_refresh_flutter3:
+
+  #API calling
+  http:
+  shimmer:
+  flutter_html:
+  intl:
+
+  # MAP
+  google_maps_flutter:
+  geolocator:
+  geocoding:
+
+  #PAYMENT
+  razorpay_flutter:
+  flutter_stripe:
+
+  # Pickers for image and file and dates
+  file_picker:
+  image_picker:
+  open_file:
+  syncfusion_flutter_datepicker:
+  lottie:
+  video_thumbnail:
+  video_player:
+  local_auth:
+  flutter_secure_storage:
+  retry:
+
+  # Images and Icons
+  flutter_svg:
+  font_awesome_flutter:
+  cached_network_image:
+  webview_flutter:
+  flutter_slidable:
+  percent_indicator:
+  signature:
+  path_provider:
+  photo_view:
+  # bar chart
+  fl_chart:
+
+  #APP Information
+  url_launcher:
+  share_plus:
+  flutter_custom_tabs:
+  get_storage:
+  flutter_paystack_plus:
+  flutter_localizations:
+    sdk: flutter
+
+  crypto: any
+  html: any
+  async: any
+  vector_math: any
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+#  mobx_codegen: ^2.6.1
+#  build_runner: ^2.4.9
+  flutter_lints:
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - images/
+    - images/icons/
+    - images/flags/
+    - images/filesFormat/
+    - images/patientAvatars/
+    - images/icons/ic_addToCart.png
+    - assets/
+    - assets/logo/
+    - assets/icons/
+    - assets/images/
+  fonts:
+  - family: Montserrat
+    fonts:
+      - asset: assets/fonts/Montserrat-Regular.ttf
+      - asset: assets/fonts/Montserrat-Bold.ttf
+        weight: 700
+      - asset: assets/fonts/Montserrat-Italic.ttf
+        style: italic
+
+https://gitlab:
+  com/gmits_mobile/service-provider-app/provider_flutter:
+    git:

@@ -1,0 +1,157 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:safelify/components/empty_error_state_component.dart';
+import 'package:safelify/components/internet_connectivity_widget.dart';
+import 'package:safelify/components/loader_widget.dart';
+import 'package:safelify/main.dart';
+import 'package:safelify/model/bill_list_model.dart';
+import 'package:safelify/network/bill_repository.dart';
+import 'package:safelify/screens/patient/components/bill_component.dart';
+import 'package:safelify/screens/shimmer/screen/bill_records_shimmer_screen.dart';
+import 'package:safelify/utils/app_common.dart';
+import 'package:safelify/utils/colors.dart';
+import 'package:safelify/utils/common.dart';
+import 'package:safelify/utils/constants/sharedpreference_constants.dart';
+import 'package:safelify/utils/images.dart';
+import 'package:nb_utils/nb_utils.dart';
+
+class MyBillRecordsScreen extends StatefulWidget {
+  @override
+  _MyBillRecordsScreenState createState() => _MyBillRecordsScreenState();
+}
+
+class _MyBillRecordsScreenState extends State<MyBillRecordsScreen> {
+  Future<List<BillListData>>? future;
+
+  TextEditingController searchCont = TextEditingController();
+
+  List<BillListData> billList = [];
+  Map<String, List<BillListData>> groupedBill = {};
+
+  int page = 1;
+
+  bool isLastPage = false;
+  bool showClear = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (appStore.isLoading) {
+      appStore.setLoading(false);
+    }
+    init();
+  }
+
+  void init({bool showLoader = false}) async {
+    if (showLoader) appStore.setLoading(true);
+    future = getBillListApi(
+      page: page,
+      billList: billList,
+      lastPageCallback: (b) => isLastPage = b,
+    ).then((value) {
+      setState(() {});
+      appStore.setLoading(false);
+      return value;
+    }).catchError((e) {
+      appStore.setLoading(false);
+      toast(e.toString());
+      throw e;
+    });
+  }
+
+  bool get showBillDetails {
+    return isVisible(SharedPreferenceKey.kiviCarePatientBillViewKey);
+  }
+
+  bool get showEncounterDashboard {
+    return isVisible(SharedPreferenceKey.kiviCarePatientEncounterViewKey);
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) super.setState(fn);
+  }
+
+  @override
+  void dispose() {
+    getDisposeStatusBarColor();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: appBarWidget(
+        locale.lblBillingRecords,
+        textColor: Colors.white,
+        systemUiOverlayStyle: defaultSystemUiOverlayStyle(context),
+        elevation: 0,
+        color: appPrimaryColor,
+      ),
+      body: InternetConnectivityWidget(
+        retryCallback: () => setState,
+        child: Stack(
+          children: [
+            SnapHelperWidget<List<BillListData>>(
+              future: future,
+              errorWidget: ErrorStateWidget(),
+              loadingWidget: BillRecordsShimmerScreen(),
+              errorBuilder: (error) {
+                return NoDataWidget(
+                  imageWidget: Image.asset(ic_somethingWentWrong, height: 180, width: 180),
+                  title: error.toString(),
+                ).center();
+              },
+              onSuccess: (snap) {
+                if (snap.isEmpty) return EmptyStateWidget(emptyWidgetTitle: locale.lblNoBillsFound);
+                return AnimatedScrollView(
+                  onSwipeRefresh: () async {
+                    setState(() {
+                      page = 1;
+                    });
+                    init(showLoader: false);
+                    return await 1.seconds.delay;
+                  },
+                  onNextPage: () async {
+                    if (!isLastPage) {
+                      setState(() {
+                        page++;
+                      });
+                      init(showLoader: true);
+                      await 1.seconds.delay;
+                    }
+                  },
+                  disposeScrollController: true,
+                  padding: EdgeInsets.fromLTRB(16, 16, 16, 80),
+                  listAnimationType: listAnimationType,
+                  physics: AlwaysScrollableScrollPhysics(),
+                  slideConfiguration: SlideConfiguration(verticalOffset: 400),
+                  children: [
+                    if (!isPatient()) Text('${locale.lblNote} :  ${locale.lblSwipeMassage}', style: secondaryTextStyle(size: 10, color: appSecondaryColor)),
+
+                    ///To do add language key
+                    if (isPatient() && (showBillDetails || showEncounterDashboard)) Text('${locale.lblNote} :  Swipe to view details', style: secondaryTextStyle(size: 10, color: appSecondaryColor)),
+                    8.height,
+                    ...snap.map((billData) {
+                      return BillComponent(
+                        billData: billData,
+                        callToRefresh: () {
+                          init(showLoader: true);
+                        },
+                      ).paddingSymmetric(vertical: 8);
+                    }).toList()
+                  ],
+                );
+              },
+            ),
+            Observer(
+              builder: (context) => LoaderWidget().visible(appStore.isLoading).center(),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,38 @@
+import 'package:flutter/material.dart';
+import 'package:safelify/main.dart';
+import 'package:safelify/telelegal/model/encounter_type_model.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:safelify/telelegal/utils/extensions/widget_extentions.dart';
+
+class EncounterTypeComponent extends StatelessWidget {
+  final EncounterType data;
+  final Function? onTap;
+  final bool isDeleteOn;
+
+  EncounterTypeComponent(
+      {required this.data, this.onTap, this.isDeleteOn = true});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: boxDecorationDefault(color: context.scaffoldBackgroundColor),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(data.title.validate(value: locale.lblNoTitle),
+                  style: primaryTextStyle())
+              .expand(),
+          10.width.visible(isDeleteOn),
+          const Icon(Icons.delete, color: Colors.red, size: 20)
+              .appOnTap(
+                () => onTap?.call(),
+              )
+              .visible(isDeleteOn),
+        ],
+      ),
+    );
+  }
+}
