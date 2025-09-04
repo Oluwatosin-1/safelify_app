@@ -45,3 +45,19 @@ LinearGradient kcVerticalGradient = LinearGradient(
     kcSecondaryGradient,
   ],
 );
+const kTermAndConditionsURL = 'https://admin.safelify.org/terms';
+const kPrivacyPolicyURL = 'https://admin.safelify.org/privacy-policy';
+
+const kAgoraAppID = '210d99c7fe914b75886c76e3b078c840';
+const kAgoraChannel = 'one';
+const kAgoraToken =
+    '007eJxTYEj5Y/ew4IOSTcnUoJd756yYOOVgdJCk80pZ88Jymy9JbOsUGIwMDVIsLZPN01ItDU2SzE0tLMySzc1SjZMMzC2SLUwM1AL9UxoCGRkM6sSYGRkgEMRnZsjPS2VgAAACbh0D';
+
+const kStripeKey =
+    "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";
+// const kStripeKey =
+//     "sk_test_51NWLjDAYJ1N6q8Cs9jtrQbS7cg5vnAEEZSdvAFuhUbrmnGWyHgFvh8e9SAtkAG0S0jJ3CoDHWfN9lk8jjcB5MrUN00KqujvrXD";
+// const kStripePubKey =
+//     "pk_test_51NWLjDAYJ1N6q8Cs9Co7rqtlHiXCT0LPFxXmImz4kut7o4pZnTJMo4P49AQ1gWL2XlJo1qN2D9BPVbIM8mZB2Tf200Mzloi5Nc";
+const kStripePubKey =
+    "pk_live_51NWLjDAYJ1N6q8CsRGH0e6933jB06RGqOFeHW4XNbI1a7K65QOAUyw4S4Yl1UW1JNJXxvIuX0KZnhkajHrOBqo2b009ri5yNq2";
