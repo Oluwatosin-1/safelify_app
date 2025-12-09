@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:safelify/main.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../controllers/auth_controller.dart';
 import '../../controllers/app_controller.dart';
 import '../screens/Other/admin_contacts_page.dart';
@@ -83,13 +83,15 @@ class MightyDrawer extends StatelessWidget {
             image: 'assets/icons/contact.png',
             title: locale.lblContactUs,
             isSelected: false,
-            onTap: () {
-              const email = 'admin@safelify.org';
-              const subject = 'Customer Support';
-              const body = 'Hello, I would like to inquire about...';
-              final emailUrl =
-                  'mailto:$email?subject=${Uri.encodeComponent(subject)}&body=${Uri.encodeComponent(body)}';
-              launchUrlString(emailUrl);
+            onTap: () async {
+              const String whatsAppNumber = '+2348059148033';
+              const String message = 'Hello, I would like to inquire about...';
+              final url = 'https://wa.me/$whatsAppNumber?text=${Uri.encodeComponent(message)}';
+              if (await canLaunchUrl(Uri.parse(url))) {
+                await launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication);
+              } else {
+                // Fallback or error handling
+              }
               Get.back();
             },
           ),

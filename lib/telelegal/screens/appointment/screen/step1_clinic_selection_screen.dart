@@ -91,7 +91,7 @@ class _Step1ClinicSelectionScreenState extends State<Step1ClinicSelectionScreen>
   }
 
   Future<void> _launchWhatsApp() async {
-    const String whatsAppNumber = '1234567890';
+    const String whatsAppNumber = '+2348059148033';
     const String message = 'Hello, I need assistance with firm selection.';
     final url = 'https://wa.me/$whatsAppNumber?text=${Uri.encodeComponent(message)}';
     if (await canLaunchUrl(Uri.parse(url))) {

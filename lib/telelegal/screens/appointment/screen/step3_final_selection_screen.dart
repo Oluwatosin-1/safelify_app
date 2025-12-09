@@ -147,7 +147,7 @@ class _Step3FinalSelectionScreenState extends State<Step3FinalSelectionScreen> {
   }
 
   Future<void> _launchWhatsApp() async {
-    const String whatsAppNumber = '1234567890';
+    const String whatsAppNumber = '+2348059148033';
     const String message = 'Hello, I need assistance with final selection for legal.';
     final url = 'https://wa.me/$whatsAppNumber?text=${Uri.encodeComponent(message)}';
     if (await canLaunchUrl(Uri.parse(url))) {

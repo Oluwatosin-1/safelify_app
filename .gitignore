@@ -9,7 +9,8 @@ gitignore
 
 # Java class files
 *.class
-
+.idea
+.dart_tool
 # Generated files
 bin/
 gen/
